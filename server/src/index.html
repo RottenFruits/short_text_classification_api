@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+  </head>
+  <body>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+
+    <h1>short text classification api</h1>
+    <label>text：</label>
+    <input type="text" id="text" /><br/>
+    <label>submit：</label>
+    <input type="button" id=submit value="送信" />
+    <span id="result"></span>
+    
+    <script type="text/javascript">
+        $(function(){
+          $("#submit").click(function(){
+            var text = $("#text").val();
+            data = {"text":[text]};
+            data = JSON.stringify(data);
+
+            $.ajax({
+              type: "POST",
+              url: "http://0.0.0.0:5000/predict",
+              contentType: "application/json; charset=utf-8", 
+              dataType: 'json',
+              data: data,
+
+            success: function(json) {
+                dataType: "json",  
+                $("#result").text(json.prediction);
+                console.log(json);
+            },
+            error: function() {
+                $('#result').text('error');
+            }
+            });
+          });
+        });
+    </script>
+
+  </body>
+</html>
